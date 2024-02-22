@@ -7,5 +7,7 @@ export const createContactSchema = Joi.object({
 })
 
 export const updateContactSchema = Joi.object({
-
+    name: Joi.string(),
+    email: Joi.string() ,
+    phone: Joi.string(),
 })

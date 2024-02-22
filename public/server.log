@@ -1,0 +1,29 @@
+ 
+ 
+23-02-2024_00:38:34, 
+ POST, /api/contacts, 
+ Added  , {"name":"Taras Panasenko","email":"qwe@qwe.com","phone":"(233) 738-2360"}  
+ 
+23-02-2024_00:38:42, 
+ GET, /api/contacts/, 
+ ALL CONTACTS    
+ 
+23-02-2024_00:38:57, 
+ GET, /api/contacts/bfjpO51UtafYHhm7qL4LB, 
+ GET CONTACTS ID: bfjpO51UtafYHhm7qL4LB    
+ 
+23-02-2024_00:39:21, 
+ PUT, /api/contacts/bfjpO51UtafYHhm7qL4LB, 
+ Changed, ID: bfjpO51UtafYHhm7qL4LB  , {"phone":"(233) 738-55555","name":"Taras Panasenko23"}  
+ 
+23-02-2024_00:39:42, 
+ DELETE, /api/contacts/bfjpO51UtafYHhm7qL4LB, 
+ Deleted, ID: bfjpO51UtafYHhm7qL4LB    
+ 
+23-02-2024_00:39:57, 
+ DELETE, /api/contacts/x3-_cwm9UfpSGiFRmkoWy, 
+ Deleted, ID: x3-_cwm9UfpSGiFRmkoWy    
+ 
+23-02-2024_00:40:01, 
+ POST, /api/contacts, 
+ Added  , {"name":"Taras Panasenko","email":"qwe@qwe.com","phone":"(233) 738-2360"} 

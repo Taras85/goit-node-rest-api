@@ -5,6 +5,9 @@ import path from "path";
 const contactsPath = path.resolve("./db/contacts.json");
 
 
+
+
+
 async function listContacts() {
   const data = await fs.promises.readFile(contactsPath);
   return JSON.parse(data);
@@ -46,7 +49,11 @@ async function updateContactById(id, data) {
   if (index === -1) {
     return null;
   }
-  contacts[index] = { id, ...data };
+    for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      contacts[index][key] = data[key];
+    }
+  }
   await fs.promises.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return contacts[index];
 }
