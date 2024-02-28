@@ -1,9 +1,30 @@
-import Joi from "joi";
+import express from "express";
 
-export const createContactSchema = Joi.object({
+import {
+  getAllContacts,
+  getOneContact,
+  deleteContact,
+  createContact,
+  updateContact,
 
-})
+} from "../controllers/contactsControllers.js";
+import { createContactSchema, updateContactSchema } from "../schemas/contactsSchemas.js";
+import validateBody from "../helpers/validateBody.js";
 
-export const updateContactSchema = Joi.object({
 
-})
+
+const contactsRouter = express.Router();
+
+contactsRouter.get("/", getAllContacts);
+
+
+contactsRouter.get("/:id", getOneContact);
+
+
+contactsRouter.delete("/:id", deleteContact);
+
+contactsRouter.post("/", validateBody(createContactSchema), createContact);
+
+contactsRouter.put("/:id", validateBody(updateContactSchema), updateContact);
+
+export default contactsRouter;
