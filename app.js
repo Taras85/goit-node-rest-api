@@ -12,7 +12,7 @@ import contactsRouter from "./routes/contactsRouter.js";
 
 dotenv.config()
 // import { DB_HOSTS } from "./config.js";
-const { DB_HOSTS, PORT = 3001 } = process.env;
+const { DB_HOSTS, PORT = 3000 } = process.env;
 
 const app = express();
 
