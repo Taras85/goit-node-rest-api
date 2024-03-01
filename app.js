@@ -9,7 +9,7 @@ import moment from "moment/moment.js";
 import mongoose from 'mongoose';
 
 
-dotenv.config()
+dotenv.config();
 // import { DB_HOSTS } from "./config.js";
 const { DB_HOSTS,  PORT=3000 } = process.env;
 
