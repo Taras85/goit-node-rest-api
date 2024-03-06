@@ -26,4 +26,40 @@
  
 23-02-2024_00:40:01, 
  POST, /api/contacts, 
- Added  , {"name":"Taras Panasenko","email":"qwe@qwe.com","phone":"(233) 738-2360"} 
+ Added  , {"name":"Taras Panasenko","email":"qwe@qwe.com","phone":"(233) 738-2360"}  
+ 
+06-03-2024_20:26:39, 
+ DELETE, /api/contacts/1g9CvJ7rwvrqvEl3GAwDp, 
+ Deleted, ID: 1g9CvJ7rwvrqvEl3GAwDp    
+ 
+06-03-2024_20:35:32, 
+ GET, /api/contacts/, 
+ ALL CONTACTS    
+ 
+06-03-2024_20:35:39, 
+ GET, /api/contacts/, 
+ ALL CONTACTS    
+ 
+06-03-2024_20:36:25, 
+ POST, /api/contacts/, 
+ Added  , {"name":"Tari","email":"qwe@qwe","phone":"(715) 598-5555"}  
+ 
+06-03-2024_20:36:43, 
+ PUT, /api/contacts/rsKkOQUi80UsgVPCcLZZW, 
+ Changed, ID: rsKkOQUi80UsgVPCcLZZW  , {"name":"Tari159"}  
+ 
+06-03-2024_20:37:15, 
+ PUT, /api/contacts/UzfD3mF-0AGCdy0SdnFGP, 
+ Changed, ID: UzfD3mF-0AGCdy0SdnFGP  , {"name":"Tari85"}  
+ 
+06-03-2024_20:37:57, 
+ PUT, /api/contacts/UzfD3mF-0AGCdy0SdnFGP, 
+ Changed, ID: UzfD3mF-0AGCdy0SdnFGP  , {}  
+ 
+06-03-2024_20:44:42, 
+ PUT, /api/contacts/UzfD3mF-0AGCdy0SdnFGP, 
+ Changed, ID: UzfD3mF-0AGCdy0SdnFGP  , {}  
+ 
+06-03-2024_20:45:11, 
+ PUT, /api/contacts/UzfD3mF-0AGCdy0SdnFGP, 
+ Changed, ID: UzfD3mF-0AGCdy0SdnFGP  , {"name":"Tari55"} 
