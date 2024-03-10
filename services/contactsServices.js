@@ -1,6 +1,6 @@
-import fs from "fs";
+// import fs from "fs";
 // import { nanoid } from "nanoid";
-import path from "path";
+// import path from "path";
 
 
 import { Contact } from "../models/contact.js"
@@ -19,12 +19,13 @@ async function getContactById(contactId) {
 
 }
 
-async function addContact({ name, email, phone }) {
+async function addContact({ name, email, phone, favorite }) {
   const contacts = await listContacts();
   const newContact = {
     name,
     email,
     phone,
+    favorite,
   };
   contacts.push(newContact);
   await Contact.create(contacts);
@@ -53,7 +54,6 @@ async function updateContactById(id, data) {
       contacts[index][key] = data[key];
     }
   }
-    //  await Contact.findByIdAndUpdate(id, data, {new:true});
   await Contact.findByIdAndUpdate(id, data);
 
   return contacts[index];

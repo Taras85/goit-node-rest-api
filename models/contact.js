@@ -6,19 +6,21 @@ import Joi from "joi";
 const phoneRegexp = /^(\(\d{3}\))\s\d{3}-\d{4}$/;
 
 
-export const createContactSchema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().required() ,
-  phone: Joi.string().pattern(phoneRegexp).required(),
+// export const createContactSchema = Joi.object({
+//     name: Joi.string().required(),
+//     email: Joi.string().required() ,
+//     phone: Joi.string().pattern(phoneRegexp).required(),
+//     favorite: Joi.boolean(),
     
-  //genre:Joi.string().valid(...genereList).required()
-})
+  
+// })
 
-export const updateContactSchema = Joi.object({
-    name: Joi.string(),
-    email: Joi.string() ,
-    phone: Joi.string(),
-})
+// export const updateContactSchema = Joi.object({
+//     name: Joi.string(),
+//     email: Joi.string() ,
+//     phone: Joi.string(),
+//     favorite: Joi.boolean(),
+// })
 
 
 
@@ -36,6 +38,10 @@ const contactShema = new Schema({
     type: String,
     match: phoneRegexp,
     required: true,
+  },
+  favorite: {
+    type: Boolean,
+    default: false,
   },
   //опис з значенням за замовченням
   // favorite: {
