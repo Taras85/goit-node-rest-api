@@ -69,8 +69,8 @@ export const updateContact = async (req, res, next) => {
 
 export const updateStatusContact = async (req, res, next) => {
   try {
-    const { contactId } = req.params;
-    const result = await updateStatusById(contactId, req.body);
+    const { id } = req.params;
+    const result = await updateStatusById(id, req.body);
     if (!result) {
       throw HttpError(404, "Not found");
     }
