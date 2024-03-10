@@ -3,7 +3,7 @@
 // import path from "path";
 
 
-import { Contact } from "../models/contact.js"
+import { Contact } from "../schemas/contactsSchemas.js"
 
 
 async function listContacts() {
@@ -59,10 +59,27 @@ async function updateContactById(id, data) {
   return contacts[index];
 }
 
+async function updateStatusById(contactId, data) {
+  const contacts = await listContacts();
+  const index = contacts.findIndex((item) => item.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+    for (const key in data) {
+    if (data.hasOwnProperty(key)) {
+      contacts[index][key] = data[key];
+    }
+  }
+  await Contact.findByIdAndUpdate(contactId, data);
+
+  return contacts[index];
+}
+
 export {
   addContact,
   removeContact,
   getContactById,
   listContacts,
   updateContactById,
+  updateStatusById,
 };
