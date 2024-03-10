@@ -1,7 +1,6 @@
-import fs from "fs";
 import express from "express";
-import morgan from "morgan";
-import cors from "cors";
+// import morgan from "morgan";
+// import cors from "cors";
 import dotenv from 'dotenv'
 
 import contactsRouter from "./routes/contactsRouter.js";
@@ -29,8 +28,8 @@ mongoose.connect(DB_HOSTS)
 
 
 
-app.use(morgan("tiny"));
-app.use(cors());
+// app.use(morgan("tiny"));
+// app.use(cors());
 app.use(express.json());
 
 
