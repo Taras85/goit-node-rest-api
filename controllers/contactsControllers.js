@@ -5,7 +5,7 @@ import {
   removeContact,
   getContactById,
   listContacts,
-    updateContactById,
+  updateContactById,
   updateStatusById,
 } from "../services/contactsServices.js";
 
@@ -39,7 +39,7 @@ export const deleteContact = async (req, res, next) => {
       throw HttpError(404, "Not found");
     }
 
-    res.json( result );
+    res.json(result);
   } catch (error) {
     next(error);
   }
@@ -67,7 +67,7 @@ export const updateContact = async (req, res, next) => {
   }
 };
 
-export const updateStatusContact  = async (req, res, next) => {
+export const updateStatusContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
     const result = await updateStatusById(contactId, req.body);

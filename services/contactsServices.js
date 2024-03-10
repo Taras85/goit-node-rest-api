@@ -1,22 +1,14 @@
-// import fs from "fs";
-// import { nanoid } from "nanoid";
-// import path from "path";
 
-
-import { Contact } from "../schemas/contactsSchemas.js"
-
+import { Contact } from "../schemas/contactsSchemas.js";
 
 async function listContacts() {
-  const data = await Contact.find();
+  const data = await Contact.find({}, "-createdAt -updatedAt");
   return data;
 }
 
 async function getContactById(contactId) {
-
-
   const result = Contact.findById(contactId);
   return result || null;
-
 }
 
 async function addContact({ name, email, phone, favorite }) {
@@ -49,7 +41,7 @@ async function updateContactById(id, data) {
   if (index === -1) {
     return null;
   }
-    for (const key in data) {
+  for (const key in data) {
     if (data.hasOwnProperty(key)) {
       contacts[index][key] = data[key];
     }
@@ -65,7 +57,7 @@ async function updateStatusById(contactId, data) {
   if (index === -1) {
     return null;
   }
-    for (const key in data) {
+  for (const key in data) {
     if (data.hasOwnProperty(key)) {
       contacts[index][key] = data[key];
     }
