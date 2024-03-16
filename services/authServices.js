@@ -5,15 +5,29 @@ async function registerUser({ password, email, subscription }) {
     password,
     email,
     subscription,
-    // token,
   };
   const registerUser = await User.create(newUser);
   return registerUser;
 }
-async function loginUser(contactId, token) {
-  console.log('token:', token)
-  const updateUser = await User.findByIdAndUpdate(contactId, {token}, {new: true} );
+async function loginUser(userId, token) {
+  const updateUser = await User.findByIdAndUpdate(contactId, token, {
+    new: true,
+  });
   return updateUser;
 }
 
-export { registerUser, loginUser };
+async function logoutUser(userId) {
+  await User.findByIdAndUpdate(userId, { token: null });
+}
+
+async function findOneUser(email) {
+  const oneUser = await User.findOne({ email });
+  return oneUser;
+}
+
+async function updateSubscription(userId, data) {
+  const userSubscription = await User.findByIdAndUpdate(userId, data, {new: true});
+ return userSubscription;
+}
+
+export { registerUser, loginUser, logoutUser, findOneUser, updateSubscription };

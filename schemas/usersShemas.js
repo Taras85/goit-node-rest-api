@@ -26,10 +26,7 @@ const userShema = new Schema(
       type: String,
       default: null,
     },
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "user",
-    // },
+
   },
   { versionKey: false, timestamps: true }
 );
@@ -39,14 +36,17 @@ userShema.post("save", handleMongooseError);
 export const registerShema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
-  subscription: Joi.string().required(),
+  subscription: Joi.string().valid('starter', 'pro', 'business').required(),
     token: Joi.string(),
 });
 
 export const loginShema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
-    // token: Joi.string(),
+
+});
+export const updateUsertSubscriptionSchema = Joi.object({
+  subscription: Joi.string().valid('starter', 'pro', 'business').required(),
 });
 
 export const User = model("user", userShema);

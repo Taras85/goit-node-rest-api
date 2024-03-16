@@ -1,8 +1,15 @@
 
 import { Contact } from "../schemas/contactsSchemas.js";
 
-async function listContacts() {
-  const data = await Contact.find({}, "-createdAt -updatedAt");
+async function listContacts(owner, page, limit, favorite) {
+  const skip = (page - 1) * limit
+  let data
+  if (favorite !== undefined && favorite.toLowerCase() === 'true') {
+    data = await Contact.find({owner, favorite}, "-createdAt -updatedAt", {skip, limit}).populate("owner", "email subscription");
+  return data;
+  }
+
+  data = await Contact.find({owner}, "-createdAt -updatedAt", {skip, limit}).populate("owner", "email subscription");
   return data;
 }
 
@@ -11,12 +18,13 @@ async function getContactById(contactId) {
   return result || null;
 }
 
-async function addContact({ name, email, phone, favorite }) {
+async function addContact({ name, email, phone, favorite, owner }) {
   const newContact = {
     name,
     email,
     phone,
     favorite,
+    owner,
   };
   const addContact = await Contact.create(newContact);
   return addContact;

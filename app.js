@@ -3,7 +3,7 @@ import morgan from "morgan";
 import dotenv from "dotenv";
 
 import contactsRouter from "./routes/contactsRouter.js";
-import authRouter from "./routes/auth.js";
+import authRouter from "./routes/authRouter.js";
 
 import mongoose from "mongoose";
 

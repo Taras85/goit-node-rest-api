@@ -10,8 +10,10 @@ import {
 } from "../services/contactsServices.js";
 
 export const getAllContacts = async (req, res) => {
+  const { id: owner } = req.user;
+  const { page=1, limit=20, favorite } = req.query;
   try {
-    const result = await listContacts();
+    const result = await listContacts(owner, page, limit, favorite);
     res.json(result);
   } catch (error) {
     next(error);
@@ -46,8 +48,9 @@ export const deleteContact = async (req, res, next) => {
 };
 
 export const createContact = async (req, res, next) => {
+  const { id: owner } = req.user;
   try {
-    const result = await addContact(req.body);
+    const result = await addContact({...req.body, owner});
     res.status(201).json(result);
   } catch (error) {
     next(error);
