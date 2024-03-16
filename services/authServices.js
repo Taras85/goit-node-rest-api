@@ -10,7 +10,7 @@ async function registerUser({ password, email, subscription }) {
   return registerUser;
 }
 async function loginUser(userId, token) {
-  const updateUser = await User.findByIdAndUpdate(contactId, token, {
+  const updateUser = await User.findByIdAndUpdate(userId, token, {
     new: true,
   });
   return updateUser;
