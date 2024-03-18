@@ -36,8 +36,8 @@ userShema.post("save", handleMongooseError);
 export const registerShema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
-  subscription: Joi.string().valid('starter', 'pro', 'business').required(),
-    token: Joi.string(),
+  subscription: Joi.string().valid('starter', 'pro', 'business'),
+  
 });
 
 export const loginShema = Joi.object({

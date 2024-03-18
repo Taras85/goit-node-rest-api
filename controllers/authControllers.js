@@ -47,7 +47,6 @@ export const login = async (req, res, next) => {
     res.status(200).json({
       token:result.token,
       user: {
-        id: result.id,
         email: result.email,
         subscription: result.subscription,
       },
@@ -71,9 +70,8 @@ export const logout = async (req, res, next) => {
   const { id } = req.user;
 
   await logoutUser(id)
-  res.json({
-    message: "Logout succes"
-  })
+  res.status(204)
+    .json();
 }
 
 

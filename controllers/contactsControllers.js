@@ -21,9 +21,10 @@ export const getAllContacts = async (req, res) => {
 };
 
 export const getOneContact = async (req, res, next) => {
+  const { id: owner } = req.user;
   try {
     const { id } = req.params;
-    const result = await getContactById(id);
+    const result = await getContactById(owner, id);
     if (!result) {
       throw HttpError(404, "Not found");
     }
@@ -34,9 +35,10 @@ export const getOneContact = async (req, res, next) => {
 };
 
 export const deleteContact = async (req, res, next) => {
+  const { id: owner } = req.user;
   try {
     const { id } = req.params;
-    const result = await removeContact(id);
+    const result = await removeContact(owner, id);
     if (!result) {
       throw HttpError(404, "Not found");
     }
@@ -58,12 +60,13 @@ export const createContact = async (req, res, next) => {
 };
 
 export const updateContact = async (req, res, next) => {
+  const { id: owner } = req.user;
   try {
     const { id } = req.params;
     if (Object.keys(req.body).length === 0) {
       throw HttpError(400, "Body must have at least one field");
     }
-    const result = await updateContactById(id, req.body);
+    const result = await updateContactById( owner, id, req.body );
     if (!result) {
       throw HttpError(404, "Not found");
     }
@@ -74,10 +77,11 @@ export const updateContact = async (req, res, next) => {
 };
 
 export const updateStatusContact = async (req, res, next) => {
+  const { id: owner } = req.user;
   try {
     const { id } = req.params;
 
-    const result = await updateStatusById(id, req.body);
+    const result = await updateStatusById(owner, id, req.body );
     if (!result) {
       throw HttpError(404, "Not found");
     }
