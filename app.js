@@ -1,11 +1,15 @@
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import multer from "multer";
+import path from "path";
 
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 
 import mongoose from "mongoose";
+
+const tempDir = path.join(__dirname,"tmp")
 
 dotenv.config();
 const { DB_HOSTS, PORT = 3000 } = process.env;
@@ -24,6 +28,10 @@ mongoose
 
 app.use(morgan("tiny"));
 app.use(express.json());
+
+const multerConfig = multer.diskStorage({
+  destination:""
+})
 
 app.use("/api/users", authRouter)
 app.use("/api/contacts", contactsRouter);
