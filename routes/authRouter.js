@@ -1,7 +1,7 @@
 import express from "express";
-import { upload } from "../helpers/multer.js";
+import { upload } from "../middlewares/multer.js";
 
-import validateBody from "../helpers/validateBody.js";
+import validateBody from "../middlewares/validateBody.js";
 
 import {
     register,
@@ -9,6 +9,7 @@ import {
     current,
     logout,
     updateUserSubscription,
+    updateUserAvatar,
 } from "../controllers/authControllers.js";
 
 import {
@@ -16,7 +17,7 @@ import {
     loginShema,
     updateUsertSubscriptionSchema
 } from "../schemas/usersShemas.js";
-import {authenticate} from "../helpers/authenticate.js"
+import {authenticate} from "../middlewares/authenticate.js"
 
 
 const authRouter = express.Router();
@@ -33,6 +34,8 @@ authRouter.get("/current", authenticate, current)
 
 authRouter.post("/logout", authenticate, logout)
 
-authRouter.patch("/users", authenticate,validateBody(updateUsertSubscriptionSchema), updateUserSubscription)
+authRouter.patch("/users", authenticate, validateBody(updateUsertSubscriptionSchema), updateUserSubscription)
+
+authRouter.patch("/avatar", authenticate, upload.single("avatarURL"), updateUserAvatar )
 
 export default authRouter;

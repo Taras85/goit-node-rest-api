@@ -7,7 +7,6 @@ const multerConfig = {
   storage: multer.diskStorage({
     destination: tempDir,
     filename: (req, file, cb) => {
-      console.log("req:", req.body);
       cb(null, file.originalname);
     },
   }),

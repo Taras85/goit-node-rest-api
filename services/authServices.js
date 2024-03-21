@@ -31,4 +31,9 @@ async function updateSubscription(userId, data) {
  return userSubscription;
 }
 
-export { registerUser, loginUser, logoutUser, findOneUser, updateSubscription };
+async function updateAvatar(userId, avatarURL){
+  const userAvatar = await User.findByIdAndUpdate(userId, avatarURL, {new: true})
+  return userAvatar
+}
+
+export { registerUser, loginUser, logoutUser, findOneUser, updateSubscription, updateAvatar };

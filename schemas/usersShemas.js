@@ -28,6 +28,7 @@ const userShema = new Schema(
     },
     avatarURL: {
       type: String,
+      required: true,
     }
 
   },
@@ -40,7 +41,7 @@ export const registerShema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
   subscription: Joi.string().valid('starter', 'pro', 'business'),
-  avatarURL: Joi.string(),
+
   
 });
 

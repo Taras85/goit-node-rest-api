@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import gravatar from "gravatar";
 dotenv.config();
 const { SECRET_KEY } = process.env;
 
@@ -11,6 +12,7 @@ import {
   loginUser,
   logoutUser,
   registerUser,
+  updateAvatar,
   updateSubscription,
 } from "../services/authServices.js";
 import path from "path";
@@ -20,9 +22,19 @@ const avatarsDir = path.resolve("public", "avatars");
 
 
 export const register = async (req, res, next) => {
+  
   try {
     const { path: tempUpload, originalname } = req.file;
+    // const filename = `${id}_${originalname}`
     const { email, password } = req.body;
+    // let avatarURL
+    // if (tempUpload.length ===0) {
+    //   avatarURL = gravatar.url(email);
+    // }else{ avatarURL = path.join( "avatars", originalname)}
+    
+
+    // const avatarURL = gravatar.url(email);
+    // console.log('avatarURL:', avatarURL)
     const resultUpload = path.join(avatarsDir, originalname);
     const avatarURL = path.join( "avatars", originalname)
 
@@ -42,8 +54,7 @@ export const register = async (req, res, next) => {
       user: {
         email: result.email,
         subscription: result.subscription,
-        // avatarURL: result.avatarURL,
-      },
+       },
     });
   } catch (error) {
     next(error);
@@ -105,9 +116,31 @@ export const updateUserSubscription = async (req, res, next) => {
       throw HttpError(404, "Not found");
     }
     res.json({
-      useer: { emailemail: result.email, subscription: result.subscription },
+      user: { emailemail: result.email, subscription: result.subscription },
     });
   } catch (error) {
     next(error);
   }
 };
+
+export const updateUserAvatar = async (req, res, next) => {
+  const { id } = req.user;
+  try {
+    const { path: tempUpload, originalname } = req.file;
+    const filename = `${id}_${originalname}`
+
+  const resultUpload = path.join(avatarsDir, filename);
+  
+  await fs.rename(tempUpload, resultUpload);
+  const avatarURL = path.join( "avatars", filename)
+  
+    const result = await updateAvatar(id, { avatarURL });
+    
+    res.json({avatarURL:result.avatarURL})
+  } catch (error) {
+    next(error)
+  }
+
+
+
+}
