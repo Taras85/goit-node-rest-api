@@ -26,6 +26,9 @@ const userShema = new Schema(
       type: String,
       default: null,
     },
+    avatarURL: {
+      type: String,
+    }
 
   },
   { versionKey: false, timestamps: true }
@@ -37,6 +40,7 @@ export const registerShema = Joi.object({
   password: Joi.string().required(),
   email: Joi.string().pattern(emailRegexp).required(),
   subscription: Joi.string().valid('starter', 'pro', 'business'),
+  avatarURL: Joi.string(),
   
 });
 

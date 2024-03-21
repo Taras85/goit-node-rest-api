@@ -1,10 +1,11 @@
 import { User } from "../schemas/usersShemas.js";
 
-async function registerUser({ password, email, subscription }) {
+async function registerUser({ password, email, subscription, avatarURL }) {
   const newUser = {
     password,
     email,
     subscription,
+    avatarURL
   };
   const registerUser = await User.create(newUser);
   return registerUser;

@@ -6,20 +6,44 @@ const { SECRET_KEY } = process.env;
 
 import HttpError from "../helpers/HttpError.js";
 
+import {
+  findOneUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+  updateSubscription,
+} from "../services/authServices.js";
+import path from "path";
+import fs from "fs/promises";
 
-import { findOneUser, loginUser, logoutUser, registerUser, updateSubscription } from "../services/authServices.js";
+const avatarsDir = path.resolve("public", "avatars");
+
 
 export const register = async (req, res, next) => {
   try {
+    const { path: tempUpload, originalname } = req.file;
     const { email, password } = req.body;
-    const user = await findOneUser( email );
+    const resultUpload = path.join(avatarsDir, originalname);
+    const avatarURL = path.join( "avatars", originalname)
+
+    await fs.rename(tempUpload, resultUpload);
+    const user = await findOneUser(email);
     if (user) {
       throw HttpError(409, "Email in use");
     }
     const hashPassword = await bcrypt.hash(password, 10);
-    const result = await registerUser({ ...req.body, password: hashPassword });
+    const result = await registerUser({
+      ...req.body,
+      password: hashPassword,
+      avatarURL,
+    });
+
     res.status(201).json({
-      user: { email: result.email, subscription: result.subscription },
+      user: {
+        email: result.email,
+        subscription: result.subscription,
+        // avatarURL: result.avatarURL,
+      },
     });
   } catch (error) {
     next(error);
@@ -29,7 +53,7 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await findOneUser( email );
+    const user = await findOneUser(email);
 
     if (!user) {
       throw HttpError(401, "Email or password is wrong");
@@ -42,10 +66,10 @@ export const login = async (req, res, next) => {
     const payload = { id: user.id };
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
 
-    const result = await loginUser(user.id, {token});
-    
+    const result = await loginUser(user.id, { token });
+
     res.status(200).json({
-      token:result.token,
+      token: result.token,
       user: {
         email: result.email,
         subscription: result.subscription,
@@ -62,30 +86,28 @@ export const current = async (req, res) => {
   res.json({
     email,
     subscription,
-  })
-
-}
+  });
+};
 
 export const logout = async (req, res, next) => {
   const { id } = req.user;
 
-  await logoutUser(id)
-  res.status(204)
-    .json();
-}
-
+  await logoutUser(id);
+  res.status(204).json();
+};
 
 export const updateUserSubscription = async (req, res, next) => {
   const { id } = req.user;
   try {
-        const result = await updateSubscription(id, req.body);
-    
+    const result = await updateSubscription(id, req.body);
+
     if (!result) {
       throw HttpError(404, "Not found");
     }
-    res.json({useer:{emailemail:result.email,subscription:result.subscription}})
+    res.json({
+      useer: { emailemail: result.email, subscription: result.subscription },
+    });
   } catch (error) {
     next(error);
   }
-  
-}
+};

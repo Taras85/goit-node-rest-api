@@ -1,4 +1,5 @@
-import express, { Router } from "express";
+import express from "express";
+import { upload } from "../helpers/multer.js";
 
 import validateBody from "../helpers/validateBody.js";
 
@@ -20,7 +21,11 @@ import {authenticate} from "../helpers/authenticate.js"
 
 const authRouter = express.Router();
 
-authRouter.post("/register", validateBody(registerShema), register)
+//upload.fields([{name:"avatarURL", maxCount:1},{name:"cover", maxCount: 2}]) файли з різих полів
+//upload.fields("avatarURL", 8) файли з одного поля 8шт.
+//upload.single("avatarURL") 1 файл
+
+authRouter.post("/register", upload.single("avatarURL"), validateBody(registerShema), register)
 
 authRouter.post("/login", validateBody(loginShema), login)
 
