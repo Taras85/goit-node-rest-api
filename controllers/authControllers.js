@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import gravatar from "gravatar";
+import Jimp from "jimp";
 dotenv.config();
 const { SECRET_KEY } = process.env;
 
@@ -20,25 +21,10 @@ import fs from "fs/promises";
 
 const avatarsDir = path.resolve("public", "avatars");
 
-
 export const register = async (req, res, next) => {
-  
   try {
-    const { path: tempUpload, originalname } = req.file;
-    // const filename = `${id}_${originalname}`
     const { email, password } = req.body;
-    // let avatarURL
-    // if (tempUpload.length ===0) {
-    //   avatarURL = gravatar.url(email);
-    // }else{ avatarURL = path.join( "avatars", originalname)}
-    
-
-    // const avatarURL = gravatar.url(email);
-    // console.log('avatarURL:', avatarURL)
-    const resultUpload = path.join(avatarsDir, originalname);
-    const avatarURL = path.join( "avatars", originalname)
-
-    await fs.rename(tempUpload, resultUpload);
+    const avatarURL = gravatar.url(email);
     const user = await findOneUser(email);
     if (user) {
       throw HttpError(409, "Email in use");
@@ -54,7 +40,7 @@ export const register = async (req, res, next) => {
       user: {
         email: result.email,
         subscription: result.subscription,
-       },
+      },
     });
   } catch (error) {
     next(error);
@@ -127,20 +113,21 @@ export const updateUserAvatar = async (req, res, next) => {
   const { id } = req.user;
   try {
     const { path: tempUpload, originalname } = req.file;
-    const filename = `${id}_${originalname}`
+    const filename = `${id}_${originalname}`;
 
-  const resultUpload = path.join(avatarsDir, filename);
-  
-  await fs.rename(tempUpload, resultUpload);
-  const avatarURL = path.join( "avatars", filename)
-  
-    const result = await updateAvatar(id, { avatarURL });
-    
-    res.json({avatarURL:result.avatarURL})
+    const resultUpload = path.join(avatarsDir, filename);
+
+      await Jimp.read(tempUpload).then((avatar) => {
+      return avatar
+        .resize(250, 250)
+        .quality(50)
+        .write(tempUpload)
+    })
+    await fs.rename(tempUpload, resultUpload);
+    const result = await updateAvatar(id, { resultUpload });
+
+    res.status(200).json({ avatarURL: result.avatarURL });
   } catch (error) {
-    next(error)
+    next(error);
   }
-
-
-
-}
+};
