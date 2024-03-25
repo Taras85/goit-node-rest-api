@@ -32,7 +32,8 @@ async function updateSubscription(userId, data) {
 }
 
 async function updateAvatar(userId, avatarURL){
-  const userAvatar = await User.findByIdAndUpdate(userId, avatarURL, {new: true})
+
+  const userAvatar = await User.findByIdAndUpdate(userId, {avatarURL}, {new: true})
   return userAvatar
 }
 

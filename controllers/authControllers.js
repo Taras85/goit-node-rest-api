@@ -19,7 +19,9 @@ import {
 import path from "path";
 import fs from "fs/promises";
 
-const avatarsDir = path.resolve("public", "avatars");
+// const avatarsDir = path.resolve("public", "avatars");
+
+const avatarsDir = path.join("public", "avatars");
 
 export const register = async (req, res, next) => {
   try {
@@ -112,19 +114,18 @@ export const updateUserSubscription = async (req, res, next) => {
 export const updateUserAvatar = async (req, res, next) => {
   const { id } = req.user;
   try {
+    if (!req.file) throw HttpError(400, "Bad Request");
+
     const { path: tempUpload, originalname } = req.file;
     const filename = `${id}_${originalname}`;
 
     const resultUpload = path.join(avatarsDir, filename);
 
-      await Jimp.read(tempUpload).then((avatar) => {
-      return avatar
-        .resize(250, 250)
-        .quality(50)
-        .write(tempUpload)
-    })
+    await Jimp.read(tempUpload).then((avatar) => {
+      return avatar.resize(250, 250).quality(50).write(tempUpload);
+    });
     await fs.rename(tempUpload, resultUpload);
-    const result = await updateAvatar(id, { resultUpload });
+    const result = await updateAvatar(id, resultUpload);
 
     res.status(200).json({ avatarURL: result.avatarURL });
   } catch (error) {
