@@ -114,7 +114,7 @@ export const updateUserSubscription = async (req, res, next) => {
 export const updateUserAvatar = async (req, res, next) => {
   const { id } = req.user;
   try {
-    if (!req.file) throw HttpError(400, "Bad Request");
+    if (!req.file) throw HttpError(400, "Path to avatar not found");
 
     const { path: tempUpload, originalname } = req.file;
     const filename = `${id}_${originalname}`;
@@ -122,10 +122,13 @@ export const updateUserAvatar = async (req, res, next) => {
     const resultUpload = path.join(avatarsDir, filename);
 
     await Jimp.read(tempUpload).then((avatar) => {
-      return avatar.resize(250, 250).quality(50).write(tempUpload);
+      return avatar.contain(250, 250).write(tempUpload);
     });
+
+    const avatarURL = path.join("avatars", filename);
     await fs.rename(tempUpload, resultUpload);
-    const result = await updateAvatar(id, resultUpload);
+
+    const result = await updateAvatar(id, avatarURL);
 
     res.status(200).json({ avatarURL: result.avatarURL });
   } catch (error) {
