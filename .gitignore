@@ -3,5 +3,5 @@ node_modules/
 .idea
 .vscode
 .DS_Store
-.jpg
-.png
+*.jpg
+*.png
